@@ -47,21 +47,23 @@ def get_profile(profile_name):
 
     return (ff_path + config.get(profile_name, 'Path')).replace('/', '\\')
 
+def main():
+    try:
+        profile_path = get_profile('Profile0')
+    except Exception as e:
+        print("Failed get_profile()")
+        raise e
+        sys.exit(1)
 
-try:
-    profile_path = get_profile('Profile0')
-except Exception as e:
-    print("Failed get_profile()")
-    raise e
-    sys.exit(1)
+    try:
+        check_vars(profile_path + '\\prefs.js', conf_tup)
+    except Exception as e:
+        print("Failed script with exception: " + str(e))
+        raise e
+        sys.exit(2)
+    else:
+        Popen("C:/Program Files/Mozilla Firefox/firefox.exe")
+        print("Script done.")
+        sys.exit(0)
 
-try:
-    check_vars(profile_path + '\\prefs.js', conf_tup)
-except Exception as e:
-    print("Failed script with exception: " + str(e))
-    raise e
-    sys.exit(2)
-else:
-    Popen("C:/Program Files/Mozilla Firefox/firefox.exe")
-    print("Script done.")
-    sys.exit(0)
+if __name__ == '__main__': main()
